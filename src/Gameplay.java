@@ -10,7 +10,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
     private boolean play = false;
     private int score = 0;
 
-    private int totalBricks = 21;
+    private int totalBricks = 31;
 
     private Timer timer;
     private int delay = 8;
