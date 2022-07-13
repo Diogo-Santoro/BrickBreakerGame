@@ -1,4 +1,3 @@
-import org.w3c.dom.css.Rect;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,27 +40,36 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
         g.setColor(Color.BLACK);
         g.fillRect(1,1,692,592);
 
+        //borders
+        g.setColor(Color.YELLOW);
+        g.fillRect(0,0,3,592);
+        g.fillRect(0,0,692,3);
+        g.fillRect(691,0,3,592);
+
         //map
         map.draw((Graphics2D)g);
 
-        //padlle
+        //paddle
         g.setColor(Color.GREEN);
         g.fillRect(playerX, 550,100,8);
 
         //ball
         g.setColor(Color.LIGHT_GRAY);
         g.fillOval(ballposX,ballposY,20,20);
-        g.dispose();
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("serif", Font.BOLD, 25));
+        g.drawString(""+score, 590, 30);
 
         if(totalBricks <= 0){
             play = false;
             ballXdir = 0;
             ballYdir = 0;
             g.setColor(Color.RED);
-            g.setFont(new Font("serif", Font.ITALIC, 30));
-            g.drawString("Você ganhou:  ", 190, 300);
+            g.setFont(new Font("serif", Font.BOLD, 30));
+            g.drawString("Você ganhou!  ", 190, 300);
 
-            g.setFont(new Font("serif", Font.ITALIC, 20));
+            g.setFont(new Font("serif", Font.BOLD, 20));
             g.drawString("Pressione (Enter) para iniciar de novo ", 230, 350);
         }
 
@@ -71,16 +79,12 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
             ballYdir = 0;
             g.setColor(Color.RED);
             g.setFont(new Font("serif", Font.ITALIC, 30));
-            g.drawString("Fim de Jogo, Pontuou ", 190, 300);
+            g.drawString("Fim de Jogo :( ", 190, 300);
 
             g.setFont(new Font("serif", Font.ITALIC, 20));
             g.drawString("Pressione (Enter) para iniciar de novo ", 230, 350);
         }
-        //scores
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("serif", Font.ITALIC, 25));
-        g.drawString(""+score, 590, 30);
-
+        g.dispose();
     }
 
     @Override
@@ -90,7 +94,6 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
             if(new Rectangle(ballposX, ballposY, 20,20).intersects(new Rectangle(playerX,550,100,8))){
                 ballYdir = -ballYdir;
             }
-
             A:for(int i = 0; i<map.map.length; i++){
                 for(int j=0; j<map.map[0].length;j++){
                     if(map.map[i][j] > 0){
@@ -105,7 +108,7 @@ public class Gameplay extends JPanel implements KeyListener, ActionListener {
 
                         if(ballRect.intersects(brickRect)){
                             map.setBrickValue(0,i,j);
-                            totalBricks --;
+                            totalBricks--;
                             score += 5;
 
                             if(ballposX + 19 <= brickRect.x || ballposX + 1 >= brickRect.x + brickRect.width){
